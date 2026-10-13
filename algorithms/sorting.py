@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 
 
+def swap(lst: list[int], i: int, j: int) -> None:
+    """
+    Auxillary function for swaping elements of a list.
+    """
+    lst[i], lst[j] = lst[j], lst[i]
+
+
 def insertion_sort(lst: list[int]) -> None:
     """
     Insertion sorting algorithm
@@ -10,7 +17,7 @@ def insertion_sort(lst: list[int]) -> None:
 
     The algorithm sorts by iterating through elements. 
     If lst[i+1] > lst[i], it swtiches the two elements 
-    and checks again for i - 1 until it no longer holds true
+    and checks again for i - 1 until it no longer holds true.
 
     Properties:
     -----------
@@ -25,6 +32,13 @@ def insertion_sort(lst: list[int]) -> None:
 
         Space complexity: 0(1)
     """
+    for i in range(len(lst)):
+        j: int = i - 1
+        while j > 0 and lst[j] > lst[j + 1]:
+            swap(lst, i, j)
+
+    return
+    
 
 
 def selection_sort(lst: list[int]) -> None:
@@ -35,9 +49,10 @@ def selection_sort(lst: list[int]) -> None:
     -------------
 
     The algorithm sorts by iterating through elements. 
-    In iteration i if lst[i+1] > lst[i], it swtiches the two elements 
-    and checks again for i - 1 until it no longer holds true. Then
-    the algorithms proceeds to iteration i + 1.
+    In iteration i the algorithm find i-th smallest element
+    and swtiches it with i-th element of the list. Therefore
+    every index i contains the i-th smallest element and the
+    list is sorted.
 
     Properties:
     -----------
@@ -52,6 +67,14 @@ def selection_sort(lst: list[int]) -> None:
 
         Space complexity: 0(1)
     """
+    for i in range(len(lst)):
+        m: int = i
+        for j in range(i, len(lst)):
+            if lst[j] < lst[m]:
+                m = j
+        lst[i], lst[m] = lst[m], lst[i]
+
+    return
 
 
 def quicksort(lst: list[int]) -> None:
