@@ -103,7 +103,25 @@ def quicksort(lst: list[int]) -> None:
     """
 
 
-def merge_sort(lst: list[int]) -> None:
+def merge(lst: list[int], left: int, mid: int, right: int) -> None:
+    """
+    Auxillary function for the merge-sort algorithm. The function
+    merges two already sorted parts of list lst.
+    """
+    aux: list[int] = [lst[x] for x in range(left, right + 1)]
+    i: int = left
+    j: int = mid + 1
+
+    for k in range(left, right + 1):
+        if i <= mid and (j > right or aux[i] <= aux[j]):
+            lst[k] = aux[i]
+            i += 1
+        else:
+            lst[k] = aux[j]
+            j += 1
+
+
+def merge_sort(lst: list[int], left: int, right: int) -> None:
     """
     Mergesort sorting algorithm
 
@@ -128,6 +146,12 @@ def merge_sort(lst: list[int]) -> None:
 
         Space complexity: 0(1)
     """
+
+    if left < right:
+        mid: int = len(lst) // 2
+        merge_sort(lst, left, mid)
+        merge_sort(lst, mid + 1, right)
+        merge(lst, left, mid, right)
 
 
 def inplace_merge_sort(lst: list[int]) -> None:
