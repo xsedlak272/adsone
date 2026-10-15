@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 
 def swap(lst: list[int], i: int, j: int) -> None:
@@ -41,8 +41,9 @@ def insertion_sort(lst: list[int]) -> None:
 
     for i in range(len(lst)):
         j: int = i - 1
-        while j > 0 and lst[j] > lst[j + 1]:
-            swap(lst, i, j)
+        while j >= 0 and lst[j] > lst[j + 1]:
+            swap(lst, j, j + 1)
+            j -= 1
 
     return
 
@@ -213,11 +214,11 @@ def merge(lst: list[int], left: int, mid: int, right: int) -> None:
     """
 
     aux: list[int] = [lst[x] for x in range(left, right + 1)]
-    i: int = left
-    j: int = mid + 1
+    i: int = 0
+    j: int = mid + 1 - left
 
     for k in range(left, right + 1):
-        if i <= mid and (j > right or aux[i] <= aux[j]):
+        if i <= mid - left and (j >= len(aux) or aux[i] <= aux[j]):
             lst[k] = aux[i]
             i += 1
         else:
@@ -265,7 +266,7 @@ def merge_sort(lst: list[int], left: int, right: int) -> None:
     """
 
     if left < right:
-        mid: int = len(lst) // 2
+        mid: int = (left + right) // 2
         merge_sort(lst, left, mid)
         merge_sort(lst, mid + 1, right)
         merge(lst, left, mid, right)
