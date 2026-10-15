@@ -139,7 +139,7 @@ def merge(lst: list[int], left: int, mid: int, right: int) -> None:
         Time complexity: O(n)
         Space complexity: 0(n)
 
-        Where n = right - left
+        Where n = right - left + 1
 
     Parameters:
     -----------
@@ -176,10 +176,12 @@ def merge_sort(lst: list[int], left: int, right: int) -> None:
     How it works:
     -------------
 
-    The algorithm sorts by iterating through elements.
-    In iteration i if lst[i+1] > lst[i], it swtiches the two elements
-    and checks again for i - 1 until it no longer holds true. Then
-    the algorithms proceeds to iteration i + 1.
+    The algorithm sorts by splitting the list into two halfs
+    until there is only one or no elemets. Then the algorithm
+    uses the auxillary merge function to merge the two sorted
+    lists (a list of one or no elements is sorted). The recursion
+    depth is at most log n. The merge algorithm time complexity
+    is O(n). Therefore the time complexity is O(n*log n).
 
     Properties:
     -----------
@@ -192,7 +194,7 @@ def merge_sort(lst: list[int], left: int, right: int) -> None:
             Worst: O(n*log n)
             Average: O(n*log n)
 
-        Space complexity: 0(1)
+        Space complexity: 0(n)
 
     Parameters:
     -----------
@@ -220,11 +222,6 @@ def inplace_merge_sort(lst: list[int]) -> None:
     How it works:
     -------------
 
-    The algorithm sorts by iterating through elements.
-    In iteration i if lst[i+1] > lst[i], it swtiches the two elements
-    and checks again for i - 1 until it no longer holds true. Then
-    the algorithms proceeds to iteration i + 1.
-
     Properties:
     -----------
     Stable: Yes
@@ -233,11 +230,13 @@ def inplace_merge_sort(lst: list[int]) -> None:
     Complexity:
     -----------
         Time complexity:
-            Worst: O(n*log n)
-            Average: O(n*log n)
+            Worst: O(n*(log n)^2)
+            Average: O(n*(log n)^2))
 
         Space complexity: 0(1)
     """
+    # TODO
+    pass
 
 
 def heapsort():
