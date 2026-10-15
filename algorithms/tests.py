@@ -48,7 +48,7 @@ def main():
     assert sorted_list3 == aux3, f"Should have been {sorted_list3}, but actually {aux3}"
     assert sorted_list4 == aux4, f"Should have been {sorted_list4}, but actually {aux4}"
 
-    # ----------------- selection sort -----------------
+    # ----------------- quicksort -----------------
 
     aux1 = test_list1.copy()
     aux2 = test_list2.copy()
@@ -65,7 +65,7 @@ def main():
     assert sorted_list3 == aux3, f"Should have been {sorted_list3}, but actually {aux3}"
     assert sorted_list4 == aux4, f"Should have been {sorted_list4}, but actually {aux4}"
 
-    # ----------------- selection sort -----------------
+    # ----------------- mergesort -----------------
 
     aux1 = test_list1.copy()
     aux2 = test_list2.copy()
