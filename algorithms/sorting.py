@@ -89,7 +89,50 @@ def selection_sort(lst: list[int]) -> None:
     return
 
 
-def quicksort(lst: list[int]) -> None:
+def partition(lst: list[int], left: int, right: int) -> int:
+    """
+    Auxillary function for the quicksort algorithm.
+
+    How it works:
+    -------------
+
+        The function picks a pivot (in this case the last element
+        being sorted - right) and rearranges the list in the way
+        that the pivot is index i which we return, for elements on
+        indexes left <= l <= i, lst[l] <= pivot holds true, for elements
+        on indexes right >= r > i, lst[r] > pivot holds true.
+
+    Complexity:
+    -----------
+        Time complexity: O(n)
+        Space complexity: 0(1)
+
+        Where n = right - left + 1
+
+    Parameters:
+    -----------
+    lst: list[int]
+        List being sorted
+
+    left: int
+        Integer representing the leftmost element to be sorted
+
+    right: int
+        Integer representing the rightmost element to be sorted
+    """
+
+    pivot: int = lst[right]
+    i: int = left - 1
+
+    for j in range(left, right + 1):
+        if lst[j] <= pivot:
+            i += 1
+            swap(lst, i, j)
+
+    return i
+
+
+def quicksort(lst: list[int], left: int, right: int) -> None:
     """
     Quicksort sorting algorithm
 
@@ -113,15 +156,28 @@ def quicksort(lst: list[int]) -> None:
             Average: O(n*log n)
 
         Space complexity: 0(1)
+
+    Parameters:
+    -----------
+    lst: list[int]
+        List being sorted
+
+    left: int
+        Integer representing the leftmost element to be sorted
+
+    right: int
+        Integer representing the rightmost element to be sorted
     """
 
-    # TODO
-    pass
+    if left < right:
+        mid = partition(lst, left, right)
+        quicksort(lst, left, mid - 1)
+        quicksort(lst, mid + 1, right)
 
 
 def merge(lst: list[int], left: int, mid: int, right: int) -> None:
     """
-    Auxillary function for the merge-sort algorithm. The function
+    Auxillary function for the mergesort algorithm. The function
     merges two already sorted parts of list lst.
 
     How it works:
