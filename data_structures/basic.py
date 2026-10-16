@@ -33,7 +33,7 @@ class Stack():
     -----------
     self.stack: list[Any]
         Represents stack with elements of any type.
-    
+
     self.size: int
         Keeps the size of the stack.
     """
@@ -68,7 +68,7 @@ class LinkedList():
     -----------
     self.head: Node | None
         Represents the first node of the linked list.
-    
+
     self.tail: Node | None
         Represents the last node of the linked list.
 
@@ -80,7 +80,6 @@ class LinkedList():
         self.tail: Node | None = None
         self.size: int = 0
 
-
     def _put_start(self, node: Node) -> None:
         """
         Auxillary method which is called when we are putting a node
@@ -89,22 +88,19 @@ class LinkedList():
         self.head = node
         self.tail = node
 
-
     def put(self, value: Any) -> None:
         """
-        Appends the given value <value> at the end of linked list. 
+        Appends the given value <value> at the end of linked list.
         """
         node = Node(value)
         self.put_node(node)
 
-
     def put_left(self, value: Any) -> None:
         """
-        Prefixes the given value <value> at the start of linked list. 
+        Prefixes the given value <value> at the start of linked list.
         """
         node = Node(value)
         self.put_node_left(node)
-
 
     def put_node(self, node: Node) -> None:
         """
@@ -120,7 +116,6 @@ class LinkedList():
         node.prev = self.tail
         self.tail = self.tail.next
 
-
     def put_node_left(self, node: Node) -> None:
         """
         Prefixes the given node <node> at the end of linked list.
@@ -131,19 +126,19 @@ class LinkedList():
             self._put_start(node)
             return
 
-        node.next = self.start
-        self.start.prev = node
-        self.start = self.start.prev
-
+        node.next = self.head
+        self.head.prev = node
+        self.head = self.head.prev
 
     def pop(self) -> Any:
         """
         Deletes a node from the end of the linked list and returns the value.
         """
-        assert self.start, f"{type(self).__name__} is empty."
+        assert self.head, f"{type(self).__name__} is empty."
 
         value: Any = self.tail.value
         self.tail = self.tail.prev
+        self.size -= 1
 
         return value
 
@@ -151,10 +146,11 @@ class LinkedList():
         """
         Deletes a node from the start of the linked list and returns the value.
         """
-        assert self.start, f"{type(self).__name__} is empty."
+        assert self.head, f"{type(self).__name__} is empty."
 
-        value: Any = self.start.value
-        self.start = self.start.next
+        value: Any = self.head.value
+        self.head = self.head.next
+        self.size -= 1
 
         return value
 
@@ -162,29 +158,30 @@ class LinkedList():
         """
         Deletes a node from the end of the linked list and returns the node.
         """
-        assert self.start, f"{type(self).__name__} is empty."
+        assert self.head, f"{type(self).__name__} is empty."
 
         node: Node = self.tail
         self.tail = self.tail.prev
+        self.size -= 1
 
         return node
-
 
     def pop_left_node(self) -> Node:
         """
         Deletes a node from the start of the linked list and returns the node.
         """
-        assert self.start, f"{type(self).__name__} is empty."
+        assert self.head, f"{type(self).__name__} is empty."
 
         node: Node = self.start
         self.start = self.start.next
+        self.size -= 1
 
         return node
 
-
     def contains(self, value: Any) -> bool:
         """
-        Searches the linked list for a given value, returns True if found, else False.
+        Searches the linked list for a given value, returns True if found,
+        else False.
         """
         node = self.head
 
@@ -204,7 +201,7 @@ class Queue(LinkedList):
 
 class MaxHeap():
     def __int__(self):
-        self.heap: list[] = []
+        pass
 
     def put(self):
         # TODO
