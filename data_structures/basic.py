@@ -4,24 +4,77 @@ from typing import Any
 
 
 class Node():
+    """
+    Auxillary class implementing a standard Node.
+
+    Attributes:
+    -----------
+    self.value: Any
+        Holds the value of the node
+
+    self.next: Node | None
+        Points to the succesor of the node.
+
+    self.prev: Node | None
+        Points to the predecessor of the node.
+    """
     def __init__(self, value: Any = None):
-        self.value = value
+        self.value: Any = value
         self.next: Node | None = None
+        self.prev: Node | None = None
 
 
 class Stack():
+    """
+    An implementation of the data structure stack using a standard
+    Python list.
+
+    Attributes:
+    -----------
+    self.stack: list[Any]
+        Represents stack with elements of any type.
+    
+    self.size: int
+        Keeps the size of the stack.
+    """
     def __init__(self) -> None:
         self.stack: list[Any] = []
+        self.size: int = 0
 
     def put(self, x: Any) -> None:
+        """
+        Puts the value to stack (appends to the list).
+        """
+        self.size += 1
         self.stack.append(x)
 
     def pop(self) -> Any:
+        """
+        Removes the elements at the top of the stack (pops from the list).
+        """
         assert self.stack, f"{type(self).__name__} is empty."
+
+        self.size -= 1
         return self.stack.pop()
 
 
 class LinkedList():
+    """
+    An implementation of LinkedList using class Node. Every
+    operation runs in O(1) time, except for self.contains,
+    which runs in O(n).
+
+    Attributes:
+    -----------
+    self.head: Node | None
+        Represents the first node of the linked list.
+    
+    self.tail: Node | None
+        Represents the last node of the linked list.
+
+    self.size: int
+        Keeps the size of the linked list.
+    """
     def __init__(self) -> None:
         self.head: Node | None = None
         self.tail: Node | None = None
@@ -29,11 +82,34 @@ class LinkedList():
 
 
     def _put_start(self, node: Node) -> None:
+        """
+        Auxillary method which is called when we are putting a node
+        to an empty linked list.
+        """
         self.head = node
         self.tail = node
 
 
-    def put(self, node: Node) -> None:
+    def put(self, value: Any) -> None:
+        """
+        Appends the given value <value> at the end of linked list. 
+        """
+        node = Node(value)
+        self.put_node(node)
+
+
+    def put_left(self, value: Any) -> None:
+        """
+        Prefixes the given value <value> at the start of linked list. 
+        """
+        node = Node(value)
+        self.put_node_left(node)
+
+
+    def put_node(self, node: Node) -> None:
+        """
+        Appends the given node <node> at the end of linked list.
+        """
         self.size += 1
 
         if not self.head:
@@ -41,10 +117,14 @@ class LinkedList():
             return
 
         self.tail.next = node
+        node.prev = self.tail
         self.tail = self.tail.next
 
 
-    def put_left(self, node: Node) -> None:
+    def put_node_left(self, node: Node) -> None:
+        """
+        Prefixes the given node <node> at the end of linked list.
+        """
         self.size += 1
 
         if not self.head:
@@ -52,10 +132,25 @@ class LinkedList():
             return
 
         node.next = self.start
-        self.start = node
+        self.start.prev = node
+        self.start = self.start.prev
 
 
-    def pop_value(self) -> Any:
+    def pop(self) -> Any:
+        """
+        Deletes a node from the end of the linked list and returns the value.
+        """
+        assert self.start, f"{type(self).__name__} is empty."
+
+        value: Any = self.tail.value
+        self.tail = self.tail.prev
+
+        return value
+
+    def pop_left(self) -> Any:
+        """
+        Deletes a node from the start of the linked list and returns the value.
+        """
         assert self.start, f"{type(self).__name__} is empty."
 
         value: Any = self.start.value
@@ -63,8 +158,22 @@ class LinkedList():
 
         return value
 
+    def pop_node(self) -> Node:
+        """
+        Deletes a node from the end of the linked list and returns the node.
+        """
+        assert self.start, f"{type(self).__name__} is empty."
 
-    def pop(self) -> Node:
+        node: Node = self.tail
+        self.tail = self.tail.prev
+
+        return node
+
+
+    def pop_left_node(self) -> Node:
+        """
+        Deletes a node from the start of the linked list and returns the node.
+        """
         assert self.start, f"{type(self).__name__} is empty."
 
         node: Node = self.start
@@ -73,8 +182,24 @@ class LinkedList():
         return node
 
 
+    def contains(self, value: Any) -> bool:
+        """
+        Searches the linked list for a given value, returns True if found, else False.
+        """
+        node = self.head
+
+        while node is not None:
+            if node.value == value:
+                return True
+            node = node.next
+
+        return False
+
+
 class Queue(LinkedList):
-    pass
+    """
+    An implementation of Queue as a LinkedList.
+    """
 
 
 class MaxHeap():
