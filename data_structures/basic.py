@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from typing import Any
+from _collections_abc import Iterator
 
 
 class Node():
@@ -79,6 +80,15 @@ class LinkedList():
         self.head: Node | None = None
         self.tail: Node | None = None
         self.size: int = 0
+
+    def __len__(self) -> int:
+        return self.size
+
+    def __iter__(self) -> Iterator:
+        node = self.head
+        while node is not None:
+            yield node.value
+            node = node.next
 
     def _put_start(self, node: Node) -> None:
         """
