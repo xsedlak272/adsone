@@ -42,7 +42,7 @@ class Stack():
         self.stack: list[Any] = []
         self.size: int = 0
 
-    def put(self, x: Any) -> None:
+    def push(self, x: Any) -> None:
         """
         Puts the value to stack (appends to the list).
         """

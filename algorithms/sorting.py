@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from data_structures.basic import Stack
+
 
 def swap(lst: list[int], i: int, j: int) -> None:
     """
@@ -174,6 +176,33 @@ def quicksort(lst: list[int], left: int, right: int) -> None:
         mid = partition(lst, left, right)
         quicksort(lst, left, mid - 1)
         quicksort(lst, mid + 1, right)
+
+
+def tail_quicksort(lst: list[int], left: int, right: int) -> None:
+    """
+    Quicksort algorithm with tail recursion
+    """
+    while left < right:
+        mid: int = partition(lst, left, right)
+        tail_quicksort(lst, left, mid - 1)
+        left = mid + 1
+
+
+def iterative_quicksort(lst: list[int], left: int, right: int) -> None:
+    """
+    Quicksort algorithm using stack (not recursive)
+    """
+    stack: Stack = Stack()
+    stack.push((left, right))
+    while stack:
+        left, right = stack.pop()
+        mid: int = partition(lst, left, right)
+
+        if mid - 1 > left:
+            stack.push((left, mid - 1))
+
+        if mid + 1 < right:
+            stack.push((mid + 1, right))
 
 
 def merge(lst: list[int], left: int, mid: int, right: int) -> None:
