@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from data_structures.basic import Stack
+from data_structures.basic import Stack, Heap
 
 
 def swap(lst: list[int], i: int, j: int) -> None:
@@ -181,7 +181,16 @@ def quicksort(lst: list[int], left: int, right: int) -> None:
 def tail_quicksort(lst: list[int], left: int, right: int) -> None:
     """
     Quicksort algorithm with tail recursion
+
+    How it works:
+    -------------
+
+        Same as a normal quicksort.
+
+
+    Every property is the same as regular quicksort.
     """
+
     while left < right:
         mid: int = partition(lst, left, right)
         tail_quicksort(lst, left, mid - 1)
@@ -191,7 +200,16 @@ def tail_quicksort(lst: list[int], left: int, right: int) -> None:
 def iterative_quicksort(lst: list[int], left: int, right: int) -> None:
     """
     Quicksort algorithm using stack (not recursive)
+
+    How it works:
+    -------------
+
+        Same as a normal quicksort.
+
+
+    Every property is the same aas regular quicksort.
     """
+
     stack: Stack = Stack()
     stack.push((left, right))
     while stack:
@@ -325,9 +343,54 @@ def inplace_merge_sort(lst: list[int]) -> None:
     pass
 
 
-def heapsort():
-    # TODO
-    pass
+def parent(i: int) -> int | None:
+    return (i - 1) // 2 if i > 0 else None
+
+
+def left(i: int) -> int:
+    return 2*i + 1
+
+
+def right(i: int) -> int:
+    return 2*i + 2
+
+
+def heapify(heap: Heap, i: int) -> None:
+    largest: int = i
+    left_child: int = left(i)
+    right_child: int = right(i)
+
+    if left_child < heap.size and heap._heap[left_child] > largest:
+        largest = left_child
+
+    if right_child < heap.size and heap._heap[right_child] > largest:
+        largest = right_child
+
+    if largest != i:
+        swap(heap._heap, i, largest)
+        heapify(heap._heap, largest)
+
+
+def build_heap(lst: list[int]) -> Heap:
+    heap: Heap = Heap()
+    heap._heap = lst.copy()
+    heap.size = len(lst) - 1
+
+    for i in range(heap.size // 2, -1, -1):
+        heapify(heap, i)
+
+    return heap
+
+
+def heapsort(lst: list[int]) -> None:
+    heap: Heap = build_heap(lst)
+
+    for i in range(len(lst) - 1, 0, -1):
+        swap(heap._heap, i, 0)
+        heap.size -= 1
+        heapify(heap, 0)
+
+    lst = heap._heap.copy()
 
 
 def shellsort():

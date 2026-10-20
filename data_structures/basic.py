@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-from typing import Any
+from typing import Any, overload
 from _collections_abc import Iterator
+from math import inf
 
 
 class Node():
@@ -209,29 +210,144 @@ class Queue(LinkedList):
     """
 
 
+class Heap():
+    def __init__(self):
+        self._heap = []
+        self.size: int = 0
+
+
 class MaxHeap():
     def __int__(self):
-        pass
+        self._heap = []
+        self.size: int = 0
 
-    def put(self):
-        # TODO
-        pass
+    @overload
+    def insert(self, value: str) -> None:
+        ...
 
-    def get(self):
-        # TODO
-        pass
+    @overload
+    def insert(self, value: tuple[int, Any]) -> None:
+        ...
+
+    @overload
+    def insert(self, value: list[int]) -> None:
+        ...
+
+    def insert(self, value: int):
+        self._heap.append(-inf)
+        self._heap.increase_key()
+        self.size += 1
+
+    def extract_max(self) -> int:
+        if self.size == 0:
+            return None
+
+        ret_val = self.maximum()
+        self.__swap(0, self.size - 1)
+        self.size -= 1
+        self.__heapify(0)
+
+        return ret_val
+
+    def increase_key(self, index: int, key: int) -> None:
+        assert self.size > index, f"{type(self).__name__} is\
+            shorther then {index} elements."
+
+        self._heap[index] = key
+        while index > 0:
+            self.__swap(index, self.__parent(index))
+            index = self.__parent(index)
+
+    def maximum(self):
+        assert self.size > 0, f"{type(self).__name__} is empty."
+
+        return self.heap[0]
+
+    def __parent(self, i: int) -> int | None:
+        return (i - 1) // 2 if i > 0 else None
+
+    def __swap(self, i1: int, i2: int) -> None:
+        assert self.size > max(i1, i2)
+
+        self._heap[i1], self._heap[i2] = self._heap[i2], self._heap(i1)
+
+    def __left(self, i: int) -> int:
+        return 2*i + 1
+
+    def __right(self, i: int) -> int:
+        return 2*i + 2
+
+    def __heapify(self, i: int) -> None:
+        largest: int = i
+        left_child: int = self.__left(i)
+        right_child: int = self.__right(i)
+
+        if left_child < self.size and self._heap[left_child] > largest:
+            largest = left_child
+
+        if right_child < self.size and self._heap[right_child] > largest:
+            largest = right_child
+
+        if largest != i:
+            self.__swap(i, largest)
+            self.__heapify(largest)
 
 
 class MinHeap():
     def __init__(self) -> None:
         pass
 
+    @overload
+    def insert(self, value: str) -> None:
+        ...
+
+    @overload
+    def insert(self, value: tuple[int, Any]) -> None:
+        ...
+
+    @overload
+    def insert(self, value: list[int]) -> None:
+        ...
+
+    def insert(self, value: int):
+        # TODO
+        pass
+
+    def extract_min(self) -> int:
+        # TODO
+        pass
+
+    def decrease_key(self) -> None:
+        # TODO
+        pass
+
+    def minimum(self):
+        assert self.head, f"{type(self).__name__} is empty."
+
+        return self.heap[0]
+
+
+class PriorityQueue():
+    def __init__(self, typeHeap: bool = True):
+        if typeHeap:  # MaxHeap
+            self._heap: MaxHeap = MaxHeap()
+            self.insert = self._heap.insert
+            self.extract = self._heap.extract_max
+            self.improvekey = self._heap.increase_key
+            self.peek = self._heap.maximum
+        else:  # MinHeap
+            self._heap: MinHeap = MinHeap()
+            self.insert = self._heap.insert
+            self.extract = self._heap.extract_max
+            self.improvekey = self._heap.increase_key
+            self.peek = self._heap.maximum
+
 
 class FibonnaciHeap():
     def __init__(self):
         pass
 
-    def put(self):
+    def insert(self):
         # TODO
         pass
 
