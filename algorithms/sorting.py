@@ -212,7 +212,7 @@ def iterative_quicksort(lst: list[int], left: int, right: int) -> None:
 
     stack: Stack = Stack()
     stack.push((left, right))
-    while stack:
+    while stack.size > 0:
         left, right = stack.pop()
         mid: int = partition(lst, left, right)
 
@@ -360,21 +360,21 @@ def heapify(heap: Heap, i: int) -> None:
     left_child: int = left(i)
     right_child: int = right(i)
 
-    if left_child < heap.size and heap._heap[left_child] > largest:
+    if left_child < heap.size and heap._heap[left_child] > heap._heap[largest]:
         largest = left_child
 
-    if right_child < heap.size and heap._heap[right_child] > largest:
+    if right_child < heap.size and heap._heap[right_child] > heap._heap[largest]:  # noqa E501
         largest = right_child
 
     if largest != i:
         swap(heap._heap, i, largest)
-        heapify(heap._heap, largest)
+        heapify(heap, largest)
 
 
 def build_heap(lst: list[int]) -> Heap:
     heap: Heap = Heap()
     heap._heap = lst.copy()
-    heap.size = len(lst) - 1
+    heap.size = len(lst)
 
     for i in range(heap.size // 2, -1, -1):
         heapify(heap, i)
@@ -390,7 +390,7 @@ def heapsort(lst: list[int]) -> None:
         heap.size -= 1
         heapify(heap, 0)
 
-    lst = heap._heap.copy()
+    lst[:] = heap._heap.copy()
 
 
 def shellsort():

@@ -123,6 +123,7 @@ class LinkedList():
             self._put_start(node)
             return
 
+        assert self.tail
         self.tail.next = node
         node.prev = self.tail
         self.tail = self.tail.next
@@ -147,6 +148,7 @@ class LinkedList():
         """
         assert self.head, f"{type(self).__name__} is empty."
 
+        assert self.tail
         value: Any = self.tail.value
         self.tail = self.tail.prev
         self.size -= 1
@@ -171,6 +173,7 @@ class LinkedList():
         """
         assert self.head, f"{type(self).__name__} is empty."
 
+        assert self.tail
         node: Node = self.tail
         self.tail = self.tail.prev
         self.size -= 1
@@ -183,8 +186,8 @@ class LinkedList():
         """
         assert self.head, f"{type(self).__name__} is empty."
 
-        node: Node = self.start
-        self.start = self.start.next
+        node: Node = self.head
+        self.start = self.head.next
         self.size -= 1
 
         return node
@@ -235,10 +238,10 @@ class MaxHeap():
 
     def insert(self, value: int):
         self._heap.append(-inf)
-        self._heap.increase_key()
+        self.increase_key(self.size, value)
         self.size += 1
 
-    def extract_max(self) -> int:
+    def extract_max(self) -> int | None:
         if self.size == 0:
             return None
 
@@ -295,7 +298,8 @@ class MaxHeap():
 
 class MinHeap():
     def __init__(self) -> None:
-        pass
+        self._heap: list[int] = []
+        self.size: int = 0
 
     @overload
     def insert(self, value: str) -> None:
@@ -310,25 +314,67 @@ class MinHeap():
         ...
 
     def insert(self, value: int):
-        # TODO
-        pass
+        self._heap.append(-inf)
+        self.decrease_key(self.size, value)
+        self.size += 1
 
-    def extract_min(self) -> int:
-        # TODO
-        pass
+    def extract_min(self) -> int | None:
+        if self.size == 0:
+            return None
 
-    def decrease_key(self) -> None:
-        # TODO
-        pass
+        ret_val = self.minimum()
+        self.__swap(0, self.size - 1)
+        self.size -= 1
+        self.__heapify(0)
+
+        return ret_val
+
+    def decrease_key(self, index: int, key: int) -> None:
+        assert self.size > index, f"{type(self).__name__} is\
+            shorther then {index} elements."
+
+        self._heap[index] = key
+        while index > 0:
+            self.__swap(index, self.__parent(index))
+            index = self.__parent(index)
 
     def minimum(self):
-        assert self.head, f"{type(self).__name__} is empty."
+        assert self.size > 0, f"{type(self).__name__} is empty."
 
         return self.heap[0]
 
+    def __parent(self, i: int) -> int | None:
+        return (i - 1) // 2 if i > 0 else None
+
+    def __swap(self, i1: int, i2: int) -> None:
+        assert self.size > max(i1, i2)
+
+        self._heap[i1], self._heap[i2] = self._heap[i2], self._heap[i1]
+
+    def __left(self, i: int) -> int:
+        return 2*i + 1
+
+    def __right(self, i: int) -> int:
+        return 2*i + 2
+
+    def __heapify(self, i: int) -> None:
+        largest: int = i
+        left_child: int = self.__left(i)
+        right_child: int = self.__right(i)
+
+        if left_child > self.size and self._heap[left_child] > largest:
+            largest = left_child
+
+        if right_child > self.size and self._heap[right_child] > largest:
+            largest = right_child
+
+        if largest != i:
+            self.__swap(i, largest)
+            self.__heapify(largest)
+
 
 class PriorityQueue():
-    def __init__(self, typeHeap: bool = True):
+    def __init__(self, typeHeap: bool = True) -> None:
         if typeHeap:  # MaxHeap
             self._heap: MaxHeap = MaxHeap()
             self.insert = self._heap.insert
