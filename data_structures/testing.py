@@ -3,7 +3,7 @@
 from basic import Node, Stack, LinkedList, Queue  # noqa F403
 
 
-def main():
+def main() -> None:
 
     # ----------------- Node -----------------
 
@@ -16,6 +16,7 @@ def main():
     node1.next = node2
     node2.next = node3
     node2.prev = node1
+    assert node1.next.next
     node1.next.next.next = node4
     node4.next = node5
     node1.prev = node5
@@ -28,16 +29,16 @@ def main():
 
     assert stack.size == 0
 
-    stack.put(3)
-    stack.put(2)
-    stack.put(stack.size)
+    stack.push(3)
+    stack.push(2)
+    stack.push(stack.size)
 
     assert stack.size == 3
     assert stack.pop() == 2
     assert stack.pop() == 2
 
     for i in range(1, 21, 2):
-        stack.put(i)
+        stack.push(i)
 
     for j in range(19, 0, -2):
         assert stack.pop() == j
@@ -55,6 +56,7 @@ def main():
 
     assert llist.size == 5
     assert llist.head == node2
+    assert llist.tail
     assert llist.tail.value == 3
     assert llist.pop() == 3
     assert llist.pop_node() == node1
