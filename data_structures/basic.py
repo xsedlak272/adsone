@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-from typing import Any, overload
+from typing import Any
 from _collections_abc import Iterator
 from math import inf
 
 
 class Node():
     """
-    Auxillary class implementing a standard Node.
+    Auxillary class implementing a standard Node for LinkedList.
 
     Attributes:
     -----------
@@ -272,10 +272,10 @@ class MaxHeap():
         left_child: int = self.__left(i)
         right_child: int = self.__right(i)
 
-        if left_child < self.size and self._heap[left_child] > self._heap[largest]:
+        if left_child < self.size and self._heap[left_child] > self._heap[largest]:  # noqa
             largest = left_child
 
-        if right_child < self.size and self._heap[right_child] > self._heap[largest]:
+        if right_child < self.size and self._heap[right_child] > self._heap[largest]:  # noqa
             largest = right_child
 
         if largest != i:
@@ -336,10 +336,10 @@ class MinHeap():
         left_child: int = self.__left(i)
         right_child: int = self.__right(i)
 
-        if left_child < self.size and self._heap[left_child] < self._heap[smallest]:
+        if left_child < self.size and self._heap[left_child] < self._heap[smallest]:  # noqa
             smallest = left_child
 
-        if right_child < self.size and self._heap[right_child] < self._heap[smallest]:
+        if right_child < self.size and self._heap[right_child] < self._heap[smallest]:  # noqa
             smallest = right_child
 
         if smallest != i:
